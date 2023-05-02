@@ -1,13 +1,14 @@
 import React from 'react'
 import { json } from 'react-router-dom';
 // const cheerio = require("cheerio");
-import cheerio from 'cheerio';
+// import cheerio from 'cheerio';
 // const axios = require("axios");
-import axios from "axios";
+// import axios from "axios";
 // const fs = require("fs");
 // const { log } = require("console");
 // const json2csv = require("json2csv").Parser;
-
+import axios from "axios";
+import * as cheerio from "cheerio";
 const results = [
     {
         "website": "digital",
@@ -32,7 +33,11 @@ const SearchBar = () => {
             replace(/ /g, '+');
     }
     let search_text_final = addPlus(search_text);
-
+    const params = {
+        headers: {
+            
+        },
+    };
     const url_amazon = `https://www.amazon.in/s?k=${search_text_final}`;
     const url_flipkart = `https://www.flipkart.com/search?q=${search_text_final}`
     const url_croma = `https://www.croma.com/searchB?q=${search_text_final}%3Arelevance&text=${search_text_final}`
@@ -43,7 +48,7 @@ const SearchBar = () => {
     async function getproduct_amazon() {
         let i = 5;
         try {
-            const response = await axios.get(url_amazon);
+            const response = await axios.get(url_amazon,params);
             const $ = cheerio.load(response.data);
             let pro = $('div[class="sg-col-20-of-24 s-result-item s-asin sg-col-0-of-12 sg-col-16-of-20 sg-col s-widget-spacing-small sg-col-12-of-16"]')
             pro.each(function (index, el) {
@@ -88,7 +93,7 @@ const SearchBar = () => {
     async function getproduct_flipkart() {
         let i = 5;
         try {
-            const response = await axios.get(url_flipkart);
+            const response = await axios.get(url_flipkart,params);
             const $ = cheerio.load(response.data);
             let pro = $('div[class="_1AtVbE col-12-12"]')
             // console.log(pro);
@@ -131,7 +136,7 @@ const SearchBar = () => {
     async function getproduct_digital() {
         let i = 5;
         try {
-            const response = await axios.get(url_digital);
+            const response = await axios.get(url_digital,params);
             const $ = cheerio.load(response.data);
             let pro = $('div[class="sp grid"]')
             // console.log(pro.children());
@@ -198,7 +203,7 @@ const SearchBar = () => {
                     {results.length !== 0 && "Your Results"}
                 </div>
                 <div className="row">
-                    { 
+                    {
                         results.length !== 0 && results.map((note) => {
                             return (
                                 <>
