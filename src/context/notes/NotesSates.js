@@ -6,6 +6,7 @@ const NoteState = (props) => {
     const host = "http://localhost:5000"
     const intialnotes = []
     const intialproduct = []
+    const intialsearchhistory = []
     //get all notes
     const getNotes = async () => {
         //Todo
@@ -75,13 +76,14 @@ const NoteState = (props) => {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "prod":productsearched,
+                "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQ1MTMxNWY3ZjI0YzY3YTgzZGE1YjExIn0sImlhdCI6MTY4MzE4OTE0OH0.p3VHMKxIKWMeS8A9o3YoLcTidXBNNyCvQ65je7Gejrk"
             }
         });
         results = await response.json();
         // console.log(results);
         convert();
     }
+    
     let finalresult = [];
     async function convert() {
         finalresult = [];
@@ -121,13 +123,40 @@ const NoteState = (props) => {
                 })
             }
         }
-        console.log(finalresult.length);
+        console.log(finalresult);
         setProduct(finalresult)
+        
     }
+    async function getsearchhistory(){
+        const response = await fetch(`${host}/api/producthistory/getsearchhistory`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "auth-token": localStorage.getItem('token')
+            }
+        });
+        results = await response.json();
+        setSearchhistory(results);
+        console.log(results);
+    }
+    const addsearchhistory = async (title, description, link) => {
+        //Todo
+        const response = await fetch(`${host}/api/producthistory/addsearchhistory`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "auth-token": localStorage.getItem('token')
+            },
+            body: JSON.stringify({ title, description, link }),
+        });
+        const note = await response.json();
+        setSearchhistory(searchhistory.concat(note));
+    }
+    const [searchhistory,setSearchhistory] = useState(intialsearchhistory);
     const [notes, setNotes] = useState(intialnotes)
     const [product,setProduct] = useState(intialproduct)
     return (
-        <NoteContext.Provider value={{ product,getProducts,notes, addNote, deleteNote, editNote, getNotes }}>
+        <NoteContext.Provider value={{searchhistory,getsearchhistory, addsearchhistory,product,getProducts,notes, addNote, deleteNote, editNote, getNotes }}>
             {props.children}
         </NoteContext.Provider>
     )

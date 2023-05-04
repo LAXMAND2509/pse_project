@@ -15,6 +15,7 @@ import Alert from './components/Alert';
 import Signup from './components/Signup';
 import Login from './components/Login';
 import Feedback from './components/Feedback';
+import SearchHistory from './components/SearchHistory'
 function App() {
   const [alert, setAlert] = useState(null);
   const showAlert = (message, type) => {
@@ -38,6 +39,7 @@ function App() {
             <Route exact path="/login" element={<Login showAlert={showAlert}></Login>}></Route>
             <Route exact path="/signup" element={<Signup showAlert={showAlert}></Signup>}></Route>
             <Route exact path="/feedback" element={<Feedback showAlert={showAlert}></Feedback>}></Route>
+            <Route exact path="/searchhistory" element={<SearchHistory showAlert={showAlert}></SearchHistory>}></Route>
           </Routes>
         </Router>
       </NoteState>

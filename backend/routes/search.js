@@ -4,7 +4,9 @@ var fetchuser = require('../middleware/fetchuser');
 const cheerio = require("cheerio");
 const axios = require("axios");
 const fs = require("fs");
+const SearchResult = require('../models/SearchHistory');
 const colorKeywords = require('../color.json');
+const { query, check, validationResult } = require('express-validator');
 let phones = {};
 let phoneGroups = {};
 let search_text = "";
@@ -19,7 +21,7 @@ const HEADERS = {
 let url_amazon = "";
 let url_flipkart = "";
 let url_digital = "";
-async function assign(prod){
+async function assign(prod) {
     search_text_final = addPlus(prod);
     url_amazon = `https://www.amazon.in/s?k=${search_text_final}`;
     url_flipkart = `https://www.flipkart.com/search?q=${search_text_final}`;
@@ -57,8 +59,8 @@ function UpdatePrice() {
     }
 
 }
-function rating1(str){
-    if(str.length > 0){
+function rating1(str) {
+    if (str.length > 0) {
         return str
     }
     return "No review"
@@ -199,7 +201,7 @@ async function getproduct_digital() {
             const tittle = $(el).find('p[class="sp__name"]').text();
             const price = $(el).find('div[class="slider-text"] > div > div > div > span > span').text();
             const rating = $(el).find('i[class="fa fa-star"]').length;
-            let  noOfReviews = $(el).find('div[class="slider-text"] > div > span:nth-child(2)').text();
+            let noOfReviews = $(el).find('div[class="slider-text"] > div > span:nth-child(2)').text();
             noOfReviews = rating1(noOfReviews)
             const link = "https://www.reliancedigital.in" + $(el).find('div[class="sp grid"] > a').attr("href");
             if (tittle.length > 1) {
@@ -239,18 +241,54 @@ async function sort() {
                     phoneGroups[model][j] = xx;
                 }
             }
-        }     
+        }
     }
 }
-router.get('/searchproduct/:id', async (req, res) => {
+async function convert(results,userid) {
+    let price = 0;
+    let color = "";
+    let link = "";
+    let modelName = "";
+    let noOfReviews = "";
+    let ram = "";
+    let rating = 0;
+    let storage = "";
+    let tittle = "";
+    let website = "";
+    for (let model in results) {
+        for (let i = 0; i < results[model].length; i++) {
+            price = results[model][i].price;
+            color = results[model][i].color;
+            link = results[model][i].link;
+            modelName = results[model][i].modelName;
+            noOfReviews = results[model][i].noOfReviews;
+            ram = results[model][i].ram;
+            rating = results[model][i].rating;
+            storage = results[model][i].storage;
+            tittle = results[model][i].tittle;
+            website = results[model][i].website;
+            let desc = modelName + " " + color +" " +storage+ " ₹" + price;
+            // let date = new Date();
+            const utcdateStr = new Date().toUTCString();
+            // today = today.toUTCString();
+            const note = new SearchResult({
+                title:tittle,description:desc,link, user: userid,date:utcdateStr
+            })
+            console.log(note);
+            const savedNote = await note.save();
+        }
+    }
+
+}
+router.get('/searchproduct/:id', fetchuser, async (req, res) => {
     try {
         search_text = req.params.id;
         assign(search_text)
-        phoneGroups={};
+        phoneGroups = {};
         await final();
-        await sleep(5000);
+        await sleep(7000);
         const notes = phones;
-        let len =0;
+        let len = 0;
         phones.forEach((phone) => {
             let color = productColor(phone.tittle);
             let modelName = getSubstringUntilWord(phone.tittle, ['max', "pro", "ultra"]);
@@ -276,15 +314,19 @@ router.get('/searchproduct/:id', async (req, res) => {
 
             phoneGroups[phoneKey].push(phone);
         });
-        console.log("----------",len,"\n",phoneGroups);
         UpdatePrice();
         sort();
         res.json(phoneGroups);
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+        convert(phoneGroups,req.user.id);
     } catch (error) {
         console.log(error);
         res.status(500).json({
             error: "Some error occured",
-            err: err.message
+            error: error.message
         });
     }
 });

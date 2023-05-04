@@ -11,7 +11,7 @@ let results = {}
 
 const SearchBar = () => {
     const context = useContext(noteContext)
-    const { product, getProducts } = context;
+    const { product, getProducts,addsearchhistory } = context;
     const history = useNavigate();
     useEffect(() => {
         if (localStorage.getItem('token')) {
