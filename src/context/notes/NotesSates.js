@@ -1,10 +1,11 @@
 import react from "react";
 import NoteContext from "./noteContext";
 import { useState } from "react";
+let results = {}
 const NoteState = (props) => {
     const host = "http://localhost:5000"
     const intialnotes = []
-
+    const intialproduct = []
     //get all notes
     const getNotes = async () => {
         //Todo
@@ -68,9 +69,65 @@ const NoteState = (props) => {
         }
         setNotes(newNotes);
     }
+    const getProducts = async (productsearched) => {
+        //Todo
+        const response = await fetch(`${host}/api/search/searchproduct/${productsearched}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "prod":productsearched,
+            }
+        });
+        results = await response.json();
+        // console.log(results);
+        convert();
+    }
+    let finalresult = [];
+    async function convert() {
+        finalresult = [];
+        let price = 0;
+        let color = "";
+        let link = "";
+        let modelName = "";
+        let noOfReviews = "";
+        let ram = "";
+        let rating = 0;
+        let storage = "";
+        let tittle = "";
+        let website = "";
+        for (let model in results) {
+            for (let i = 0; i < results[model].length; i++) {
+                price = results[model][i].price;
+                color = results[model][i].color;
+                link = results[model][i].link;
+                modelName = results[model][i].modelName;
+                noOfReviews = results[model][i].noOfReviews;
+                ram = results[model][i].ram;
+                rating = results[model][i].rating;
+                storage = results[model][i].storage;
+                tittle = results[model][i].tittle;
+                website = results[model][i].website;
+                finalresult.push({
+                    website: website,
+                    tittle: tittle,
+                    modelName: modelName,
+                    price: price,
+                    storage: storage,
+                    color: color,
+                    link: link,
+                    noOfReviews: noOfReviews,
+                    rating: rating,
+                    ram: ram,
+                })
+            }
+        }
+        console.log(finalresult.length);
+        setProduct(finalresult)
+    }
     const [notes, setNotes] = useState(intialnotes)
+    const [product,setProduct] = useState(intialproduct)
     return (
-        <NoteContext.Provider value={{ notes, addNote, deleteNote, editNote, getNotes }}>
+        <NoteContext.Provider value={{ product,getProducts,notes, addNote, deleteNote, editNote, getNotes }}>
             {props.children}
         </NoteContext.Provider>
     )

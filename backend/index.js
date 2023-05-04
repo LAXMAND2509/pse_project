@@ -8,6 +8,7 @@ app.use(cors())
 app.use(express.json())// to use the response body 
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/notes', require('./routes/notes'));
+app.use('/api/search', require('./routes/search'));
 
 app.listen(port, () => {
     console.log(`iNotebook backend listening at http://localhost:${port}`)

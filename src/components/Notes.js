@@ -8,7 +8,7 @@ const Notes = (props) => {
     const context = useContext(noteContext)
     const [note, setNote] = useState({ id: "", etitle: "", edescription: "", etag: "default" });
     const { notes, getNotes, editNote } = context;
-    
+
     useEffect(() => {
         if (localStorage.getItem('token')) {
             console.log(localStorage.getItem('token'));
@@ -66,7 +66,7 @@ const Notes = (props) => {
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="tag">Rating</label>
-                                    <input type="number" className="form-control" id="tag" name="tag" placeholder="Enter Rating in numbers(1-5)" value={note.etag} onChange={onChange} min={0} max={5}/>
+                                    <input type="number" className="form-control" id="tag" name="tag" placeholder="Enter Rating in numbers(1-5)" value={note.etag} onChange={onChange} min={0} max={5} />
                                 </div>
                             </form>
                         </div>

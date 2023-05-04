@@ -12,6 +12,30 @@ code {
     monospace;
 }
 
-i{
+i {
   cursor: pointer;
+}
+
+.sec {
+  margin: 5px;
+}
+.gold{
+  border: 2px solid yellow;
+}
+.row1 {
+  display: inline-grid;
+  width: 250px;
+}
+
+.sec {
+  padding: 5px;
+  border: 2px solid rgb(97, 97, 246);
+  background-color: rgb(238, 244, 252);
+  border-radius: 5px;
+}
+
+.card-body {
+}
+.container {
+  width: 80%;
 }
