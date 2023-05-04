@@ -5,9 +5,9 @@ const SearchResult = (props) => {
     return (
         <>
             <div className=''>
-                <div className="card my-3 ">
-                    <div className="card-body">
-                        <div className="d-flex align-items-center">
+                <div className="card m-1 ">
+                    <div className="card-body ">
+                        <div className="d-flex align-items-center .card1">
                             <h6 className="card-title mb-0 mr-2 py-1 row1">{note.tittle}</h6>
                             <div className='row1'>
                                 <span className='sec'>{note.website}</span>

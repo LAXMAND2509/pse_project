@@ -32,12 +32,9 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 function UpdatePrice() {
-    // console.log(finaldata);
     for (let model in phoneGroups) {
         for (let i = 0; i < phoneGroups[model].length; i++) {
-            // console.log(finaldata[model].length);
             let x = phoneGroups[model][i].price;
-            // console.log(x);
             try {
                 if (x) {
                     if (typeof x === 'string') {
@@ -46,7 +43,6 @@ function UpdatePrice() {
                         }
                         x = x.replaceAll(',', '');
                     }
-                    // console.log(x);
                     phoneGroups[model][i].price = x * 1;
                 }
                 else {
@@ -58,7 +54,6 @@ function UpdatePrice() {
             }
 
         }
-        // console.log(finaldata[model][0].price);
     }
 
 }
@@ -121,7 +116,6 @@ function getRam(str) {
 }
 function productColor(str) {
 
-    // Look for a color keyword
     str = str.toLowerCase()
     for (let i = 0; i < colorKeywords.length; i++) {
         if (str.indexOf(colorKeywords[i].toLowerCase(), 0) > 0) {
@@ -230,10 +224,6 @@ async function final() {
         getproduct_flipkart(), getproduct_digital()
     ]).then(() => {
         phones = productdata_digital.concat(productdata_amazon.concat(productdata_flipkart));
-        // console.log("sdfsdfsd-----------------");
-        // console.log(phones);
-        // const jsonContent = JSON.stringify(result);
-        // result = jsonContent;
     })
 }
 async function sort() {
@@ -249,14 +239,12 @@ async function sort() {
                     phoneGroups[model][j] = xx;
                 }
             }
-        }
-        // console.log(finaldata[model][0].price);      
+        }     
     }
 }
 router.get('/searchproduct/:id', async (req, res) => {
     try {
         search_text = req.params.id;
-        // console.log(search_text);
         assign(search_text)
         phoneGroups={};
         await final();
@@ -281,13 +269,11 @@ router.get('/searchproduct/:id', async (req, res) => {
             phone.modelName = modelName;
             phone.storage = storage;
             phone.ram = ram;
-            // If the phone group doesn't exist yet, create a new array
             if (!phoneGroups[phoneKey]) {
                 phoneGroups[phoneKey] = [];
                 len++;
             }
 
-            // Add the phone to the corresponding group
             phoneGroups[phoneKey].push(phone);
         });
         console.log("----------",len,"\n",phoneGroups);

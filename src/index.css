@@ -35,7 +35,20 @@ i {
 }
 
 .card-body {
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  padding: 0.5rem;
 }
 .container {
-  width: 80%;
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+@media (min-width: 1200px){
+
+  .container {
+      max-width: 1158px !important; 
+  }
 }
