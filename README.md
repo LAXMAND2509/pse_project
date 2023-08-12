@@ -6,3 +6,14 @@ Every day with every millisecond of it, the prices of various gadgets online var
 The major benefits of this software are
   - It shows you the best suitable price available across all websites in a single user-friendly webpage. It also gives you the product specifications.
   - It has a wide variety of Modules. By just one search, you can get the best appropriate deal for the intended product.
+
+Sample web page
+  - login page
+    
+![image](https://github.com/LAXMAND2509/pse_project/assets/114348119/16c7f2f9-35b7-4926-b2f1-cb3aa6beba1d)
+
+  - signup page
+  - search for product
+  - result page
+  - feedback page
+  - history searches
