@@ -2,5 +2,5 @@ Every day with every millisecond of it, the prices of various gadgets online var
 
 - Purpose: The purpose of this document is to show the software requirements of the Product Comparison Search Engine software.The functionality and scope of this software are described in this SRS document.
 - Scope: The Product Comparison Search Engine software aims at helping the user to check and compare prices of the intended product from various websites. The major benefits of this software are -
-1. It shows you the best suitable price available across all websites in a single user-friendly webpage. It also gives you the product specifications.
-2.It has a wide variety of Modules. By just one search, you can get the best appropriate deal for the intended product.
+  1.It shows you the best suitable price available across all websites in a single user-friendly webpage. It also gives you the product specifications.
+  2.It has a wide variety of Modules. By just one search, you can get the best appropriate deal for the intended product.
