@@ -8,15 +8,15 @@ The major benefits of this software are
   - It has a wide variety of Modules. By just one search, you can get the best appropriate deal for the intended product.
 
 Sample web page
-  - login page
+  - login page: 
     After opening the web page, we get the login page.
     ![image](https://github.com/LAXMAND2509/pse_project/assets/114348119/16c7f2f9-35b7-4926-b2f1-cb3aa6beba1d)
 
-  - signup page
+  - signup page: 
     If we want to create a new account, then goto the signup page.
     ![image](https://github.com/LAXMAND2509/pse_project/assets/114348119/bac0bc71-bf0a-44c1-b1a9-a6668c3a2755)
 
-  - search for product
+  - search for product: 
     After login/signup, we get this search bar to search for products to be compared. 
     ![image](https://github.com/LAXMAND2509/pse_project/assets/114348119/de7ea8ef-3bea-41a2-935f-0ca3fb728844)
     
